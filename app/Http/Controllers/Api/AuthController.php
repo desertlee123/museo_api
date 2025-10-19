@@ -6,21 +6,34 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
     public function register(Request $request)
     {
-        $request->validate([
+        /* $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|unique:users',
             'password' => 'required|string|min:8',
+        ]); */
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|unique:users',
+            'password' => 'required|string|min:8',
+            'role' => 'in:user,partner' // Solo permitimos estos dos desde la app
         ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'role' => $request->role ?? 'user', // Si no viene, se usa "user"
         ]);
 
         $token = $user->createToken('auth_token')->plainTextToken;
@@ -48,7 +61,12 @@ class AuthController extends Controller
 
         return response()->json([
             'message' => 'Login exitoso',
-            'user' => $user,
+            'user' => [
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+                'role' => $user->role, // Agregado
+            ],
             'token' => $token,
         ]);
     }
