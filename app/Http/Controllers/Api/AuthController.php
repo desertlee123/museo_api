@@ -77,4 +77,23 @@ class AuthController extends Controller
 
         return response()->json(['message' => 'Logout exitoso']);
     }
+
+    public function validateToken(Request $request)
+    {
+        $user = $request->user(); // Laravel obtiene el usuario autenticado por el token
+
+        if (!$user) {
+            return response()->json(['message' => 'Token inválido o expirado'], 401);
+        }
+
+        return response()->json([
+            'message' => 'Token válido',
+            'user' => [
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+                'role' => $user->role,
+            ],
+        ], 200);
+    }
 }
