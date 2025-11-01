@@ -14,6 +14,17 @@ class User extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasApiTokens, HasFactory, Notifiable, TwoFactorAuthenticatable; // <--- 2. Y usarlo aquí
 
+    public function comentarios()
+    {
+        return $this->hasMany(Comentario::class, 'usuarios_id');
+    }
+
+    public function articulosGuardados()
+    {
+        return $this->belongsToMany(Articulo::class, 'articulos_guardados', 'usuarios_id', 'articulos_id');
+    }
+
+
     /**
      * The attributes that are mass assignable.
      *
