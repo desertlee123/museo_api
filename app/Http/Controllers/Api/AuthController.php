@@ -57,7 +57,7 @@ class AuthController extends Controller
             return response()->json(['message' => 'Credenciales incorrectas'], 401);
         }
 
-        // 🔥 Borra tokens previos antes de crear uno nuevo
+        // Borra tokens previos antes de crear uno nuevo
         $user->tokens()->delete();
 
         $token = $user->createToken('auth_token')->plainTextToken;
@@ -98,5 +98,22 @@ class AuthController extends Controller
                 'role' => $user->role,
             ],
         ], 200);
+    }
+
+    public function updateRole(Request $request)
+    {
+        $user = $request->user();
+
+        $request->validate([
+            'role' => 'required|in:user,partner',
+        ]);
+
+        $user->role = $request->role;
+        $user->save();
+
+        return response()->json([
+            'message' => 'Rol actualizado correctamente',
+            'user' => $user
+        ]);
     }
 }

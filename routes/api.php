@@ -56,3 +56,5 @@ Route::get('/galerias/{id}', [GaleriaController::class, 'show']);
 
 // Comentarios públicos
 Route::get('/comentarios/{articuloId}', [ComentarioController::class, 'indexByArticulo']);
+
+Route::middleware('auth:sanctum')->patch('/user/role', [AuthController::class, 'updateRole']);
