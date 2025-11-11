@@ -24,6 +24,7 @@ Route::get('/articulos/buscar', [ArticuloController::class, 'buscar']);
 
 // Guardados (usuario autenticado)
 Route::middleware('auth:sanctum')->get('/usuarios/articulos/guardados', [UsuarioController::class, 'savedArticles']);
+Route::middleware('auth:sanctum')->post('/usuarios/articulos/guardar', [UsuarioController::class, 'toggleGuardarArticulo']);
 
 Route::get('/articulos', [ArticuloController::class, 'index']);
 Route::get('/articulos/{id}', [ArticuloController::class, 'show']);
