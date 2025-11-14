@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\CategoriaController;
 use App\Http\Controllers\Api\GaleriaController;
 use App\Http\Controllers\Api\ComentarioController;
 use App\Http\Controllers\Api\UsuarioController;
+use App\Http\Controllers\Api\VideoController;
 
 /* Route::get('/user', function (Request $request) {
     return $request->user();
@@ -59,3 +60,5 @@ Route::get('/galerias/{id}', [GaleriaController::class, 'show']);
 Route::get('/comentarios/{articuloId}', [ComentarioController::class, 'indexByArticulo']);
 
 Route::middleware('auth:sanctum')->patch('/user/role', [AuthController::class, 'updateRole']);
+
+Route::get('/videos', [VideoController::class, 'index']);
