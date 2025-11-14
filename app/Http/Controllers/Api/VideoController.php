@@ -9,13 +9,7 @@ class VideoController extends Controller
 {
     public function index()
     {
-        $videos = Video::all();
-
-        // Generar URL completa del archivo MP4
-        $videos->transform(function ($v) {
-            $v->url = asset('videos/' . $v->archivo);
-            return $v;
-        });
+        $videos = Video::select('id', 'titulo', 'youtube_url')->get();
 
         return response()->json($videos, 200);
     }

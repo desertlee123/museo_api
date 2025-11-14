@@ -10,5 +10,6 @@ class Video extends Model
         'titulo',
         'archivo',
         'duracion',
+        'youtube_url',
     ];
 }
