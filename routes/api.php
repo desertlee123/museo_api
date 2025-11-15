@@ -46,6 +46,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Crear comentario (usuario autenticado)
     Route::middleware('auth:sanctum')->post('/usuarios/comentar', [ComentarioController::class, 'storeUserComment']);
+
+    // Ruta para obtener usuario por ID
+    Route::get('/usuarios/{id}', [UsuarioController::class, 'show']);
 });
 
 // Categorías

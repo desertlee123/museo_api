@@ -82,4 +82,17 @@ class UsuarioController extends Controller
             ], 500);
         }
     }
+
+    public function show($id)
+    {
+        $user = \App\Models\User::find($id);
+
+        if (!$user) {
+            return response()->json(['message' => 'Usuario no encontrado'], 404);
+        }
+
+        // Devolver el usuario. Usamos 'makeHidden' para asegurar que el hash de la contraseña, 
+        // tokens, etc., no se envíen, aunque ya están en el modelo $hidden.
+        return response()->json($user->makeHidden(['password', 'remember_token', 'two_factor_secret']), 200);
+    }
 }
