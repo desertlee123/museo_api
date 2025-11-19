@@ -20,7 +20,7 @@ class ComentarioController extends Controller
         }
 
         $comentarios = Comentario::where('articulos_id', $articuloId)
-            ->where('estado', 'publicado')
+            ->whereIn('estado', ['publicado', 'editado'])
             ->orderBy('created_at', 'desc')
             ->get();
 
